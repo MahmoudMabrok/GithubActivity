@@ -15,7 +15,7 @@ ktor = "2.3.7"
 composeIcons = "1.1.0"
 kotlinx-serialization = "1.6.2"
 kotlinx-datetime = "0.5.0"
-multiplatformSettings = "1.1.1"
+multiplatformSettings = "1.0.0"
 
 [libraries]
 
@@ -31,10 +31,12 @@ moko-mvvm = { module = "dev.icerock.moko:mvvm-compose", version.ref = "moko-mvvm
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+serializationKotlinxJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 composeIcons-featherIcons = { module = "br.com.devsrsouza.compose.icons:feather", version.ref = "composeIcons" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
+multiplatformSettings = { module = "com.russhwolf:multiplatform-settings-no-arg", version.ref = "multiplatformSettings" }
 
 [plugins]
 
