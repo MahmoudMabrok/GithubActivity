@@ -40,10 +40,11 @@ import tools.mo3ta.githubactivity.theme.LocalThemeIsDark
 
 
 data object ConfigScreen : Screen {
+    val settings = Settings()
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
-        val settings = Settings()
 
         var githubKey by rememberSaveable { mutableStateOf(settings.getString(Keys.API_KEY, ""))}
         var userName by rememberSaveable { mutableStateOf(settings.getString(Keys.USER_NAME, ""))}
@@ -51,7 +52,7 @@ data object ConfigScreen : Screen {
         var enterprise by rememberSaveable { mutableStateOf(settings.getString(Keys.ENTERPRISE, ""))}
         var isDark by LocalThemeIsDark.current
 
-        Column(modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing)) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
             Row(
                 horizontalArrangement = Arrangement.Center
@@ -120,6 +121,7 @@ data object ConfigScreen : Screen {
 
             Button(
                 onClick = {
+                    saveData(userName, githubKey, isEnterprise, enterprise)
                     navigator.push(
                         UserDetailsScreen(
                             UserDetailsScreenData(
@@ -134,6 +136,15 @@ data object ConfigScreen : Screen {
             }
         }
 
+    }
+
+    private fun saveData(userName: String, githubKey: String, isEnterprise: Boolean, enterprise: String) {
+        with(settings){
+            putString(Keys.USER_NAME, userName)
+            putString(Keys.API_KEY, githubKey)
+            putString(Keys.ENTERPRISE, enterprise)
+            putBoolean(Keys.IS_ENTERPRISE, isEnterprise)
+        }
     }
 
 }

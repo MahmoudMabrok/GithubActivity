@@ -1,11 +1,18 @@
 package tools.mo3ta.githubactivity
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
+import tools.mo3ta.githubactivity.theme.MobileTheme
 
 class AndroidApp : Application() {
     companion object {
@@ -19,10 +26,13 @@ class AndroidApp : Application() {
 }
 
 class AppActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            App()
+            MobileTheme{
+                AppContent()
+            }
         }
     }
 }

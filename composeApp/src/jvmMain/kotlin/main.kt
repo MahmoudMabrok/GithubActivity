@@ -3,7 +3,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
-import tools.mo3ta.githubactivity.App
+import tools.mo3ta.githubactivity.AppWithCommonTheme
 
 fun main() = application {
     Window(
@@ -12,6 +12,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
     ) {
         window.minimumSize = Dimension(350, 600)
-        App()
+        AppWithCommonTheme()
     }
 }
