@@ -123,7 +123,7 @@ fun CommonTheme( content: @Composable() () -> Unit) {
 }
 @Composable
 internal fun AppTheme(
-    content: @Composable() () -> Unit,
+    content: @Composable () -> Unit,
     appBar : @Composable () -> Unit = {}
 ) {
     val systemIsDark = isSystemInDarkTheme()
