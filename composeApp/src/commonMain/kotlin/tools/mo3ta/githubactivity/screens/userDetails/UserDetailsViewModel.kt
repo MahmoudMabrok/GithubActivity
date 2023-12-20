@@ -17,9 +17,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import tools.mo3ta.githubactivity.model.UserDetails
+
 data class UserDetailsUiState(
     val isLoading:Boolean = false,
-    val userData: UserDetailsScreen? = null
+    val userData: UserDetails? = null
 )
 
 class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
@@ -47,12 +49,14 @@ class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
     }
 
     private fun loadData() {
+        println("started")
         _uiState.update {
             it.copy(isLoading = true)
         }
 
-        val handler = CoroutineExceptionHandler { _, _ ->
+        val handler = CoroutineExceptionHandler { _, throwable ->
             _uiState.update {
+                println("Error : ${throwable.message}")
                 it.copy(isLoading = false)
             }
         }
@@ -60,6 +64,7 @@ class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
         viewModelScope.launch(handler) {
             try {
                 val userData = async {  loadUserData() }.await()
+                println("Done: $userData")
                 _uiState.update {
                     it.copy(userData = userData)
                 }
@@ -84,9 +89,9 @@ class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
         }
     }
 
-    private suspend  fun loadUserData(): UserDetailsScreen {
+    private suspend  fun loadUserData(): UserDetails {
         return httpClient
-            .get("https://$urlPrefix/repos/${userName}/pulls") {
+            .get("https://$urlPrefix/users/${userName}") {
                 headers {
                     if(isEnterprise){
                         append(HttpHeaders.Authorization, "Bearer $githubKey")

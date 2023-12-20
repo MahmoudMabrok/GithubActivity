@@ -25,12 +25,16 @@ data class UserDetailsScreen(val data: UserDetailsScreenData) : Screen {
         val viewModel = getViewModel(Unit, viewModelFactory { UserDetailsViewModel(data) })
         val uiState by viewModel.uiState.collectAsState()
 
-        if (uiState.isLoading){
-            Loading(Modifier.fillMaxSize(), "User Data for ${data.userName}")
-        }else{
-            Column {
-                Text("data: ${uiState.userData}")
+        Column(modifier = Modifier.fillMaxSize()) {
+            if (uiState.isLoading){
+                Loading(Modifier.fillMaxSize(), "User Data for ${data.userName}")
+            }else{
+                Column {
+                    Text("data: ${uiState.userData}")
+                }
             }
         }
+
+
     }
 }
