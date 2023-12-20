@@ -2,6 +2,8 @@
 
 
 ## Screenshots
+
+### Desktop
 ![Screenshot 2023-12-20 at 10 11 57 PM](https://github.com/MahmoudMabrok/GithubActivity/assets/13488900/01a8a40f-bc4e-4e49-b7ed-a0db144d650c)
 ![Screenshot 2023-12-20 at 10 12 04 PM](https://github.com/MahmoudMabrok/GithubActivity/assets/13488900/20520de3-e7a0-4418-bd6b-9fb65b75de5d)
 
