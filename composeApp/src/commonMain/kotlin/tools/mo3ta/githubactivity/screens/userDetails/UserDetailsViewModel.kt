@@ -6,6 +6,7 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
+import io.ktor.client.request.parameter
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.JsonConvertException
 import io.ktor.serialization.kotlinx.json.json
@@ -17,12 +18,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import tools.mo3ta.githubactivity.model.RepoDetails
 import tools.mo3ta.githubactivity.model.UserDetails
 
 data class UserDetailsUiState(
     val isLoading:Boolean = false,
-    val userData: UserDetails? = null
-)
+    val userData: UserDetails? = null,
+    val repos: List<RepoDetails> =  emptyList()
+){
+    val totalStars = repos.sumOf { it.stargazers_count ?: 0 }
+}
 
 class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
 
@@ -63,10 +68,10 @@ class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
 
         viewModelScope.launch(handler) {
             try {
-                val userData = async {  loadUserData() }.await()
-                println("Done: $userData")
+                val userData = async {  loadUserData() }
+                val allRepos = async { loadAllRepos() }
                 _uiState.update {
-                    it.copy(userData = userData)
+                    it.copy(userData = userData.await(), repos = allRepos.await() )
                 }
 
             }catch (_: CancellationException){
@@ -89,11 +94,36 @@ class UserDetailsViewModel(data: UserDetailsScreenData) : ViewModel() {
         }
     }
 
+    private suspend fun loadAllRepos(): List<RepoDetails> {
+        val allRepos = mutableListOf<RepoDetails>()
+        var pageNumber = 1
+        var repos = loadRepos(pageNumber)
+        allRepos.addAll(repos)
+        while (repos.isNotEmpty()){
+            pageNumber += 1
+            repos = loadRepos(pageNumber)
+            allRepos.addAll(repos)
+        }
+        return allRepos
+    }
+    private suspend fun loadRepos(pageNumber: Int): List<RepoDetails> {
+        return httpClient
+            .get("https://$urlPrefix/users/${userName}/repos") {
+                headers {
+                    if(githubKey.isNotEmpty()){
+                        append(HttpHeaders.Authorization, "Bearer $githubKey")
+                    }
+                }
+                parameter("page", pageNumber.toString())
+                parameter("per_page", 100.toString())
+            }.body()
+    }
+
     private suspend  fun loadUserData(): UserDetails {
         return httpClient
             .get("https://$urlPrefix/users/${userName}") {
                 headers {
-                    if(isEnterprise){
+                    if(githubKey.isNotEmpty()){
                         append(HttpHeaders.Authorization, "Bearer $githubKey")
                     }
                 }
