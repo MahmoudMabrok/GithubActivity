@@ -84,6 +84,13 @@ data object ConfigScreen : Screen {
                 modifier = Modifier.fillMaxWidth().padding(16.dp)
             )
 
+            OutlinedTextField(
+                value = githubKey,
+                onValueChange = { githubKey = it },
+                label = { Text("Token") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth().padding(16.dp)
+            )
 
             Row(
                 horizontalArrangement = Arrangement.Center
@@ -101,15 +108,6 @@ data object ConfigScreen : Screen {
 
 
             if (isEnterprise){
-                OutlinedTextField(
-                    value = githubKey,
-                    onValueChange = { githubKey = it },
-                    label = { Text("Token") },
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
-                )
-
-
                 OutlinedTextField(
                     value = enterprise,
                     onValueChange = { enterprise = it },

@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun LabeledData(title:String , value: String) {
 
-    Row (modifier = Modifier.padding(16.dp)){
+    Row (modifier = Modifier.padding(horizontal = 16.dp , vertical = 4.dp)){
         Text("$title : ", modifier = Modifier.weight(1.5f))
         Text(value, modifier = Modifier.weight(4f))
     }
