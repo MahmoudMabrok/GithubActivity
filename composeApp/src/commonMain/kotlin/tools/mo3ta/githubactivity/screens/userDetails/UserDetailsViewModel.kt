@@ -14,19 +14,22 @@ import tools.mo3ta.githubactivity.model.RepoDetails
 import tools.mo3ta.githubactivity.model.UserDetails
 
 data class UserDetailsUiState(
-        val isLoading: Boolean = false,
-        val userData: UserDetails? = null,
-        val repos: List<RepoDetails> = emptyList()
+    val isLoading: Boolean = false,
+    val userData: UserDetails? = null,
+    val repos: List<RepoDetails> = emptyList()
                              ) {
     val totalStars = repos.sumOf {
         it.stargazers_count ?: 0
     }
 }
 
-class UserDetailsViewModel(private val userName: String,
-                           private val githubApi: GithubService) : ViewModel
-                                                                   () {
-    private val _uiState = MutableStateFlow(UserDetailsUiState())
+class UserDetailsViewModel(
+    private val userName: String,
+    private val githubApi: GithubService
+                          ) : ViewModel
+                                  () {
+    private val _uiState =
+        MutableStateFlow(UserDetailsUiState())
     val uiState = _uiState.asStateFlow()
 
 
@@ -39,20 +42,24 @@ class UserDetailsViewModel(private val userName: String,
             it.copy(isLoading = true)
         }
 
-        val handler = CoroutineExceptionHandler { _, throwable ->
-            _uiState.update {
-                println("Error : ${throwable.message}")
-                it.copy(isLoading = false)
+        val handler =
+            CoroutineExceptionHandler { _, throwable ->
+                _uiState.update {
+                    println("Error : ${throwable.message}")
+                    it.copy(isLoading = false)
+                }
             }
-        }
 
         viewModelScope.launch(handler) {
             try {
-                val userData = async { githubApi.getUserDetails(userName) }
+                val userData = async {
+                    githubApi.getUserDetails(userName)
+                }
                 val allRepos = async { loadAllRepos() }
                 _uiState.update {
                     it.copy(userData = userData.await(),
-                            repos = allRepos.await())
+                            repos = allRepos.await()
+                                .sortedByDescending { it.stargazers_count })
                 }
 
             } catch (_: CancellationException) {
@@ -68,7 +75,7 @@ class UserDetailsViewModel(private val userName: String,
             } finally {
                 _uiState.update {
                     it.copy(
-                            isLoading = false
+                        isLoading = false
                            )
                 }
             }
@@ -78,13 +85,17 @@ class UserDetailsViewModel(private val userName: String,
     suspend fun loadAllRepos(): List<RepoDetails> {
         val allRepos = mutableListOf<RepoDetails>()
         var pageNumber = 1
-        var repos = githubApi.loadUserRepos(userName,
-                                            pageNumber)
+        var repos = githubApi.loadUserRepos(
+            userName,
+            pageNumber
+                                           )
         allRepos.addAll(repos)
         while (repos.isNotEmpty()) {
             pageNumber += 1
-            repos = githubApi.loadUserRepos(userName,
-                                            pageNumber)
+            repos = githubApi.loadUserRepos(
+                userName,
+                pageNumber
+                                           )
             allRepos.addAll(repos)
         }
         return allRepos
