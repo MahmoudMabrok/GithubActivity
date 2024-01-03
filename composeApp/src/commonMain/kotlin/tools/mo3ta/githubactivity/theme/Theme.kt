@@ -3,16 +3,13 @@ package tools.mo3ta.githubactivity.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.Typography
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
@@ -56,7 +53,7 @@ private val LightColorScheme = lightColorScheme(
     surfaceTint = md_theme_light_surfaceTint,
     outlineVariant = md_theme_light_outlineVariant,
     scrim = md_theme_light_scrim,
-)
+                                               )
 
 private val DarkColorScheme = darkColorScheme(
     primary = md_theme_dark_primary,
@@ -88,7 +85,7 @@ private val DarkColorScheme = darkColorScheme(
     surfaceTint = md_theme_dark_surfaceTint,
     outlineVariant = md_theme_dark_outlineVariant,
     scrim = md_theme_dark_scrim,
-)
+                                             )
 
 private val AppShapes = Shapes(
     extraSmall = RoundedCornerShape(2.dp),
@@ -96,41 +93,30 @@ private val AppShapes = Shapes(
     medium = RoundedCornerShape(8.dp),
     large = RoundedCornerShape(16.dp),
     extraLarge = RoundedCornerShape(32.dp)
-)
+                              )
 
 private val AppTypography = Typography(
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp
-    )
-)
+                          )
+                                      )
 
-internal val LocalThemeIsDark = compositionLocalOf { mutableStateOf(true) }
+internal val LocalThemeIsDark =
+    compositionLocalOf { mutableStateOf(true) }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun MobileTheme(
-    content: @Composable() () -> Unit
-) {
-    AppTheme (content = content , appBar = { TopAppBar(title = { Text("Github Activity") })  })
-}
-
-
-@Composable
-fun CommonTheme( content: @Composable() () -> Unit) {
-    AppTheme(content)
-}
 @Composable
 internal fun AppTheme(
     content: @Composable () -> Unit,
-    appBar : @Composable () -> Unit = {}
-) {
+    appBar: @Composable () -> Unit = {}
+                     ) {
     val systemIsDark = isSystemInDarkTheme()
-    val isDarkState = remember { mutableStateOf(systemIsDark) }
+    val isDarkState =
+        remember { mutableStateOf(systemIsDark) }
     CompositionLocalProvider(
         LocalThemeIsDark provides isDarkState
-    ) {
+                            ) {
         val isDark by isDarkState
         SystemAppearance(!isDark)
         MaterialTheme(
@@ -138,14 +124,14 @@ internal fun AppTheme(
             typography = AppTypography,
             shapes = AppShapes,
             content = {
-                Scaffold (topBar = appBar){
+                Scaffold(topBar = appBar) {
                     Surface(Modifier.padding(it)) {
                         content()
                     }
                 }
             },
 
-        )
+            )
     }
 }
 
