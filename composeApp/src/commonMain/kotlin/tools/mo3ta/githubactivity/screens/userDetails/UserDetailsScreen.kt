@@ -48,10 +48,7 @@ data class UserDetailsScreen(
                 .verticalScroll(rememberScrollState())
               ) {
             if (uiState.isLoading) {
-                Loading(
-                    Modifier.fillMaxSize(),
-                    "User Data for ${data.userName}"
-                       )
+                Loading(Modifier.fillMaxSize(), "User Data for ${data.userName}")
             } else {
                 BasicUserData(
                     uiState.userData,

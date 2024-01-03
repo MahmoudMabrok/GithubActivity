@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.ExperimentalComposeApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import tools.mo3ta.githubactivity.theme.MobileTheme
 
 class AndroidApp : Application() {
@@ -20,7 +20,7 @@ class AndroidApp : Application() {
     }
 }
 
-@ExperimentalComposeApi
+@ExperimentalMaterial3Api
 class AppActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
