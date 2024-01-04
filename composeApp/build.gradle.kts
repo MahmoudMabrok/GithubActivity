@@ -28,7 +28,7 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach {
+          ).forEach {
         it.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
@@ -42,7 +42,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(libs.libres)
             implementation(libs.voyager.navigator)
-            implementation(libs.composeImageLoader)
+            implementation(libs.kamel.image)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.moko.mvvm)
             implementation(libs.ktor.core)
@@ -70,6 +70,7 @@ kotlin {
             implementation(compose.desktop.common)
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
         jsMain.dependencies {
@@ -133,3 +134,4 @@ libres {
 tasks.getByPath("jvmProcessResources").dependsOn("libresGenerateResources")
 tasks.getByPath("jvmSourcesJar").dependsOn("libresGenerateResources")
 tasks.getByPath("jsProcessResources").dependsOn("libresGenerateResources")
+
