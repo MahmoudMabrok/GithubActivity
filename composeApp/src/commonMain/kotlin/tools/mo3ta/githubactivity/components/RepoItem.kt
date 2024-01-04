@@ -37,13 +37,7 @@ fun RepoItem(repoDetails: RepoDetails) {
                     )
             }
             Row {
-                Text(
-                    text = repoDetails.language ?: "",
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier
-                        .width(80.dp)
-                        .align(Alignment.CenterVertically)
-                    )
+
                 repoDetails.stargazers_count?.let {
                     LabelWithIcon(
                         label = it.toString(),
@@ -56,6 +50,13 @@ fun RepoItem(repoDetails: RepoDetails) {
                         iconSource = Icons.Default.ForkRight
                                  )
                 }
+                Text(
+                    text = repoDetails.language ?: "",
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .width(80.dp)
+                        .align(Alignment.CenterVertically)
+                    )
 
             }
 

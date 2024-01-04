@@ -1,13 +1,16 @@
 package tools.mo3ta.githubactivity.screens.userDetails
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
@@ -53,6 +56,9 @@ data class UserDetailsScreen(
                 BasicUserData(
                     uiState.userData,
                     uiState.totalStars.takeIf { it > 0 })
+
+                Spacer(modifier = Modifier.size(16.dp))
+
                 RepoList(uiState.repos)
             }
         }
