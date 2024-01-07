@@ -12,10 +12,13 @@ import kotlinx.coroutines.launch
 import tools.mo3ta.githubactivity.data.GithubService
 import tools.mo3ta.githubactivity.model.RepoDetails
 import tools.mo3ta.githubactivity.model.UserDetails
+import tools.mo3ta.githubactivity.model.UserEvent
+import tools.mo3ta.githubactivity.model.UserEvents
 
 data class UserDetailsUiState(
     val isLoading: Boolean = false,
     val userData: UserDetails? = null,
+    val userEvents: UserEvents? = null,
     val repos: List<RepoDetails> = emptyList()
                              ) {
     val totalStars = repos.sumOf {
@@ -61,6 +64,7 @@ class UserDetailsViewModel(
                             repos = allRepos.await()
                                 .sortedByDescending { it.stargazers_count })
                 }
+                loadExtraData()
 
             } catch (_: CancellationException) {
                 _uiState.update {
@@ -82,6 +86,29 @@ class UserDetailsViewModel(
         }
     }
 
+    private fun loadExtraData() {
+        viewModelScope.launch {
+            val userEvents = async { loadAllEvents() }.await()
+
+            _uiState.update {
+                it.copy(userEvents = processEvents(userEvents))
+            }
+        }
+    }
+
+    private fun processEvents(userEvents: List<UserEvent>): UserEvents {
+        val pullRequestOpened = userEvents.count { it.isPullRequest() }
+        val pullRequestApproved = userEvents.count { it.isApproved() }
+        val reviewComments = userEvents.count { it.isReviewComment() }
+        val pushes = userEvents.count { it.isPush() }
+        return UserEvents(
+            pullRequestOpened = pullRequestOpened,
+            pullRequestApproved = pullRequestApproved,
+            reviewCommentAdded = reviewComments,
+            pushCounts = pushes
+                         )
+    }
+
     suspend fun loadAllRepos(): List<RepoDetails> {
         val allRepos = mutableListOf<RepoDetails>()
         var pageNumber = 1
@@ -100,6 +127,23 @@ class UserDetailsViewModel(
         }
         return allRepos
     }
+
+    suspend fun loadAllEvents(): List<UserEvent> {
+        val userEvents = mutableListOf<UserEvent>()
+        var pageNumber = 1
+        var events = githubApi.loadUserEvents(userName, pageNumber)
+        userEvents.addAll(events)
+        try {
+            while (events.isNotEmpty()) {
+                pageNumber += 1
+                events = githubApi.loadUserEvents(userName, pageNumber)
+                userEvents.addAll(events)
+            }
+        } finally {
+            return userEvents
+        }
+    }
+
 
     override fun onCleared() {
         githubApi.closeClient()
