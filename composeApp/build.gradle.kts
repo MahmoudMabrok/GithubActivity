@@ -47,6 +47,7 @@ kotlin {
             implementation(libs.moko.mvvm)
             implementation(libs.ktor.core)
             implementation(libs.contentNegotiation)
+            implementation(libs.logging)
             implementation(libs.serializationKotlinxJson)
             implementation(libs.composeIcons.featherIcons)
             implementation(libs.kotlinx.serialization.json)

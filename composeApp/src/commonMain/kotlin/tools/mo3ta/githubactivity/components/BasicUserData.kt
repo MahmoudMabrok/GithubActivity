@@ -1,15 +1,19 @@
 package tools.mo3ta.githubactivity.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +30,14 @@ import tools.mo3ta.githubactivity.model.UserDetails
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BasicUserData(userDetails: UserDetails?, stars: Int? = 0) {
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
+            .padding(horizontal = 8.dp, vertical = 16.dp)
+          ) {
+
+
         userDetails?.avatar_url?.let {
             KamelImage(
                 asyncPainterResource(it),
@@ -51,7 +62,8 @@ fun BasicUserData(userDetails: UserDetails?, stars: Int? = 0) {
             Text(
                 it,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelSmall,
+                color = Color.LightGray
                 )
         }
         userDetails?.email?.let {
@@ -69,29 +81,35 @@ fun BasicUserData(userDetails: UserDetails?, stars: Int? = 0) {
                 )
         }
         Spacer(modifier = Modifier.size(16.dp))
-        FlowRow {
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+               ) {
             userDetails?.public_repos?.let {
                 LabeledData("Public Repo", it.toString(), modifier = Modifier.wrapContentSize())
             }
             userDetails?.followers?.let {
-                LabeledData("Follower", it.toString(), modifier = Modifier.weight(1f))
+                LabeledData("Follower", it.toString(), modifier = Modifier.wrapContentSize())
             }
             userDetails?.following?.let {
-                LabeledData("Following", it.toString(), modifier = Modifier.weight(1f))
+                LabeledData("Following", it.toString(), modifier = Modifier.wrapContentSize())
             }
 
-            stars?.let { LabeledData("Stars", it.toString(), modifier = Modifier.weight(1f)) }
-
-            userDetails?.public_gists?.let {
-                LabeledData("Public Gists", it.toString(), modifier = Modifier.weight(1f))
+            stars?.let {
+                LabeledData(
+                    "Stars",
+                    it.toString(),
+                    modifier = Modifier.wrapContentSize()
+                           )
             }
 
             userDetails?.company?.let {
-                LabeledData("Company", it, modifier = Modifier.weight(1f))
+                LabeledData("Company", it, modifier = Modifier.wrapContentSize())
             }
 
             userDetails?.location?.let {
-                LabeledData("Location", it, modifier = Modifier.weight(1f))
+                LabeledData("Location", it, modifier = Modifier.wrapContentSize())
             }
         }
     }

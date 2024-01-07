@@ -3,6 +3,7 @@ package tools.mo3ta.githubactivity.screens.userDetails
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -17,6 +18,7 @@ import dev.icerock.moko.mvvm.compose.viewModelFactory
 import tools.mo3ta.githubactivity.components.BasicUserData
 import tools.mo3ta.githubactivity.components.Loading
 import tools.mo3ta.githubactivity.components.RepoList
+import tools.mo3ta.githubactivity.components.UserEventsData
 import tools.mo3ta.githubactivity.data.GithubService
 
 data class UserDetailsScreenData(
@@ -48,6 +50,7 @@ data class UserDetailsScreen(
 
         Column(
             modifier = Modifier.fillMaxSize()
+                .padding(16.dp)
                 .verticalScroll(rememberScrollState())
               ) {
             if (uiState.isLoading) {
@@ -56,6 +59,9 @@ data class UserDetailsScreen(
                 BasicUserData(
                     uiState.userData,
                     uiState.totalStars.takeIf { it > 0 })
+                Spacer(modifier = Modifier.size(16.dp))
+
+                UserEventsData(uiState.userEvents)
 
                 Spacer(modifier = Modifier.size(16.dp))
 
