@@ -7,9 +7,7 @@ import androidx.compose.runtime.Composable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MobileTheme(
-    content: @Composable() () -> Unit
-                        ) {
+internal fun MobileTheme(content: @Composable() () -> Unit) {
     AppTheme(
         content = content,
         appBar = { TopAppBar(title = { Text("Github Activity") }) })
