@@ -27,7 +27,7 @@ fun UserEventsData(events: UserEvents?) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
+                .border(2.dp, MaterialTheme.colorScheme.onSurfaceVariant, RoundedCornerShape(4.dp))
                 .padding(horizontal = 8.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
               ) {
@@ -38,7 +38,7 @@ fun UserEventsData(events: UserEvents?) {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.spacedBy(8.dp)
                    ) {
                 LabeledData(
                     "Total Push",

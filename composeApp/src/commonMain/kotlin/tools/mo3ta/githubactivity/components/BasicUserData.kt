@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +32,6 @@ fun BasicUserData(userDetails: UserDetails?, stars: Int? = 0) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
             .padding(horizontal = 8.dp, vertical = 16.dp)
           ) {
 
@@ -63,7 +61,6 @@ fun BasicUserData(userDetails: UserDetails?, stars: Int? = 0) {
                 it,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 style = MaterialTheme.typography.labelSmall,
-                color = Color.LightGray
                 )
         }
         userDetails?.email?.let {
@@ -84,7 +81,8 @@ fun BasicUserData(userDetails: UserDetails?, stars: Int? = 0) {
 
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
                ) {
             userDetails?.public_repos?.let {
                 LabeledData("Public Repo", it.toString(), modifier = Modifier.wrapContentSize())
