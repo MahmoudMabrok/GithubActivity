@@ -7,6 +7,7 @@
 ![Screenshot 2024-01-04 at 10 23 09 PM](https://github.com/MahmoudMabrok/GithubActivity/assets/13488900/8119847b-5ed9-426a-b09c-078ac6871212)
 
 ### WEB 
+[web](https://mahmoudmabrok.github.io/GithubActivity/)
 ![Screenshot 2024-01-04 at 11 20 43 PM](https://github.com/MahmoudMabrok/GithubActivity/assets/13488900/e473727e-4111-4539-ba20-7b95a7979c97)
 
 
